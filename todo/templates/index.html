@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="es">
+<head>
+    <title>Inicio</title>
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="inner">
+            <a href="{% url 'talleres' %}" class="logo">Talleres Adulto Mayor</a>
+
+            <nav id="nav">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}">{{ 'Bienvenido/a ' }}{{ user.first_name }} {{ user.last_name }}</a>
+                    <a href="{% url 'logout' %}">Cerrar sesión</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Ingresar</a>
+                    <a href="{% url 'register' %}">Registrarse</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    <a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+
+    <!-- Banner -->
+    <section id="banner">
+        <div class="inner">
+            <h1>Bienvenido/a inscribete <span><br>En nuestros talleres!</span></h1>
+            <ul class="actions">
+                <li><a href="{% url 'talleres' %}" class="button alt">Ver talleres</a></li>
+            </ul>
+        </div>
+        <video autoplay muted loop id="banner-video" width="100%" height="auto">
+            <source src="{% static 'images/video1.mp4' %}" type="video/mp4">
+            Tu navegador no soporta el formato de video.
+        </video>
+    </section>
+
+    <!-- Two -->
+    <section id="two">
+        <div class="inner">
+            <!-- Taller 1 -->
+            <article class="workshop">
+                <div class="content">
+                    <header>
+                        <h3>Talleres deportivos</h3>
+                    </header>
+                    <div class="image fit">
+                        <img src="{% static 'images/audlto-mayor1.jpg' %}" alt="Talleres deportivos" width="220" height="220">
+                    </div>
+                    <p>Mantente activo y saludable participando en actividades deportivas adaptadas a tus necesidades. Este taller ofrece ejercicios y juegos que mejoran la fuerza, la coordinación y la vitalidad, mientras disfrutas de momentos llenos de energía.</p>
+                </div>
+            </article>
+
+            <!-- Taller 2 -->
+            <article class="workshop">
+                <div class="content">
+                    <header>
+                        <h3>Talleres de manualidades</h3>
+                    </header>
+                    <div class="image fit">
+                        <img src="{% static 'images/abuelos.jpg' %}" alt="Talleres de manualidades" width="220" height="220">
+                    </div>
+                    <p>Despierta tu creatividad aprendiendo técnicas de artesanía y manualidades. Este taller te permite desarrollar nuevas habilidades, relajarte y expresarte a través de proyectos únicos, todo en un entorno acogedor y social.</p>
+                </div>
+            </article>
+
+            <!-- Taller 3 
+            <article class="workshop">
+                <div class="content">
+                    <header>
+                        <h3>Talleres de baile</h3>
+                    </header>
+                    <div class="image fit">
+                        <img src="{% static 'images/baile.jpg' %}" alt="Talleres de baile" width="220" height="220">
+                    </div>
+                    <p>Descubre el ritmo y la alegría de bailar mientras fortaleces tu cuerpo y mente. Este taller está diseñado para promover la actividad física, mejorar el equilibrio y fomentar nuevas amistades en un ambiente dinámico y divertido.</p>
+                </div>
+            </article>
+			-->
+
+            <!-- Taller 4 -->
+            <article class="workshop">
+                <div class="content">
+                    <header>
+                        <h3>Y mucho más</h3>
+                    </header>
+                    <div class="image fit">
+                        <img src="{% static 'images/cocina.jpg' %}" alt="Talleres de cocina" width="220" height="220">
+                    </div>
+                    <p>Explora una amplia variedad de actividades diseñadas para inspirarte, divertirte y mantenerte activo. Desde talleres culturales y recreativos hasta sesiones de bienestar y crecimiento personal, siempre encontrarás algo que se adapte a tus intereses y necesidades. ¡Descubre todo lo que tenemos para ti!</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section id="footer">
+        <div class="inner">
+            <header><h2>Contactanos</h2></header>
+            <form method="post" action="#">
+                <div class="field half first">
+                    <label for="name">Nombre</label>
+                    <input type="text" name="name" id="name">
+                </div>
+                <div class="field half">
+                    <label for="email">Correo electrónico</label>
+                    <input type="text" name="email" id="email">
+                </div>
+                <div class="field">
+                    <label for="message">Mensaje</label>
+                    <textarea name="message" id="message" rows="6"></textarea>
+                </div>
+                <ul class="actions">
+                    <li><input type="submit" value="Enviar mensaje" class="alt"></li>
+                </ul>
+            </form>
+        </div>
+    </section>
+
+    <!-- Copyright -->
+    <div class="copyright">
+        Powered by: <a href="https://templated.co/">Templated</a>.
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/skel.min.js' %}"></script>
+    <script src="{% static 'js/util.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <script>
+        // Lógica para mostrar/ocultar el menú al hacer clic en el botón móvil
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('menu-active');
+        });
+    </script>
+
+</body>
+</html>

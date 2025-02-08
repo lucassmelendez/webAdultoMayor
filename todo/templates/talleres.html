@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="es">
+<head>
+    <title>Talleres</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: left;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 300px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .card h3 {
+            margin: 10px 0;
+        }
+
+        .card p {
+            flex-grow: 1;
+        }
+
+        .card button {
+            background-color: #e5474b;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .card button:hover {
+            background-color: #0056b3;
+        }
+
+        .card div {
+            font-size: 14px;
+            margin-top: 5px;
+            color: #28a745;
+            font-weight: bold;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="inner">
+            <a href="{% url 'talleres' %}" class="logo">Talleres Adulto Mayor</a>
+            <nav id="nav">
+                <a href="{% url 'index' %}">Inicio</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}">Bienvenido/a {{ user.first_name }} {{ user.last_name }}</a>
+                    <a href="{% url 'logout' %}">Cerrar sesión</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Iniciar sesión</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    <a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+
+    <!-- Main Section -->
+    <section id="main">
+        <div class="inner">
+            <header class="major special">
+                <h1>Talleres</h1>
+                <p>Activa tu mente y cuerpo: ¡los años no son impedimento! Participa en nuestros talleres y experimenta los beneficios de una mente activa y un cuerpo saludable.</p>
+            </header>
+            <div class="container">
+                <div class="card">
+                    <img src="{% static 'images/baile.jpg' %}" alt="adulto-baile">
+                    <h3>Taller de baile</h3>
+                    <p>¡Muévete al ritmo de la música y disfruta de los beneficios del baile para tu cuerpo y mente!</p>
+                    <button class="inscribir-btn" onclick="toggleInscripcion(this)">Inscribirse</button>
+                </div>
+                <div class="card">
+                    <img src="{% static 'images/taller-artes.jpg' %}" alt="adulto-arte">
+                    <h3>Taller de arte</h3>
+                    <p>Desata tu artista interior y expresa tus emociones a través del color. No necesitas experiencia previa, solo ganas de crear.</p>
+                    <button class="inscribir-btn" onclick="toggleInscripcion(this)">Inscribirse</button>
+                </div>
+                <div class="card">
+                    <img src="{% static 'images/cocina.jpg' %}" alt="adulto-cocina">
+                    <h3>Taller de cocina</h3>
+                    <p>Aprende a preparar recetas nutritivas y deliciosas para cuidar tu salud.</p>
+                    <button class="inscribir-btn" onclick="toggleInscripcion(this)">Inscribirse</button>
+                </div>
+                <div class="card">
+                    <img src="{% static 'images/fisico.jpg' %}" alt="adulto-fisico">
+                    <h3>Taller de actividad física</h3>
+                    <p>¡Ejercítate y cuida tu bienestar con rutinas guiadas por expertos!</p>
+                    <button class="inscribir-btn" onclick="toggleInscripcion(this)">Inscribirse</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="copyright">
+        Powered by: <a href="https://templated.co/">Templated</a>.
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/skel.min.js' %}"></script>
+    <script src="{% static 'js/util.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <!-- Custom Script -->
+    <script>
+        function toggleInscripcion(button) {
+            if (button.textContent === 'Inscribirse') {
+                // Cambiar a "Inscrito"
+                button.textContent = 'Inscrito';
+                button.style.backgroundColor = '#28a745'; // Verde
+                button.style.color = 'white';
+
+                // Mostrar mensaje
+                const mensaje = document.createElement('div');
+                mensaje.textContent = '¡Taller inscrito correctamente!';
+                mensaje.className = 'mensaje-confirmacion';
+                button.parentElement.appendChild(mensaje);
+            } else {
+                // Confirmar desinscripción
+                const confirmar = confirm('¿Seguro que quieres desinscribirte de este taller?');
+                if (confirmar) {
+                    // Cambiar a "Inscribirse"
+                    button.textContent = 'Inscribirse';
+                    button.style.backgroundColor = '#e5474b'; // Rojo original
+                    button.style.color = 'white';
+
+                    // Eliminar mensaje de confirmación
+                    const mensaje = button.parentElement.querySelector('.mensaje-confirmacion');
+                    if (mensaje) mensaje.remove();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
