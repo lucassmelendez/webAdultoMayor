@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <style>
+
+        .selected {
+            background-color: #28a745; /* Verde */
+            color: white;
+        }
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -28,7 +33,7 @@
 
         .card img {
             max-width: 100%;
-            height: auto;
+            height: 200px;
             border-radius: 10px;
         }
 
@@ -38,6 +43,7 @@
 
         .card p {
             flex-grow: 1;
+            font-size: 18px;
         }
 
         .card button {
@@ -81,7 +87,7 @@
             <nav id="nav">
                 <a href="{% url 'index' %}">Inicio</a>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'profile' %}">Bienvenido/a {{ user.first_name }} {{ user.last_name }}</a>
+                    <a href="{% url 'profile' %}">{{ 'Bienvenido/a ' }}{{ user_profile.primer_nombre }} {{ user_profile.primer_apellido }}</a>
                     <a href="{% url 'logout' %}">Cerrar sesión</a>
                 {% else %}
                     <a href="{% url 'login' %}">Iniciar sesión</a>
@@ -93,34 +99,58 @@
 
     <!-- Main Section -->
     <section id="main">
-        <div class="inner">
+        <div class="inner" >
             <header class="major special">
                 <h1>Talleres</h1>
                 <p>Activa tu mente y cuerpo: ¡los años no son impedimento! Participa en nuestros talleres y experimenta los beneficios de una mente activa y un cuerpo saludable.</p>
             </header>
             <div class="container">
-                <div class="card">
+                <div class="card" data-id="baile">
                     <img src="{% static 'images/baile.jpg' %}" alt="adulto-baile">
                     <h3>Taller de baile</h3>
-                    <p>¡Muévete al ritmo de la música y disfruta de los beneficios del baile para tu cuerpo y mente!</p>
+                    <p>¡Muévete al ritmo de la música y disfruta de los beneficios del baile para tu cuerpo y mente!<br><br>
+                        -----------------------------------------<br>
+                        <b>Dirección:</b> Av. Concha y Toro 1820<br>
+                        <b>Hora:</b> 10:30<br>
+                        <b>Día de inicio:</b> 20/12/2024<br>
+                        <b>Día de término:</b> 20/02/2025
+                    </p>
                     <button class="inscribir-btn" onclick="toggleInscripcion(this)">Inscribirse</button>
                 </div>
-                <div class="card">
+                <div class="card" data-id="pintura">
                     <img src="{% static 'images/taller-artes.jpg' %}" alt="adulto-arte">
                     <h3>Taller de arte</h3>
-                    <p>Desata tu artista interior y expresa tus emociones a través del color. No necesitas experiencia previa, solo ganas de crear.</p>
+                    <p>Desata tu artista interior y expresa tus emociones a través del color. No necesitas experiencia previa, solo ganas de crear.<br>
+                    -----------------------------------------<br>
+                    <b>Dirección:</b> Av. San Carlos 1340<br>
+                    <b>Hora:</b> 10:30<br>
+                    <b>Día de inicio:</b> 21/01/2025<br>
+                    <b>Día de término:</b> 21/03/2025
+                </p>
                     <button class="inscribir-btn" onclick="toggleInscripcion(this)">Inscribirse</button>
                 </div>
-                <div class="card">
+                <div class="card" data-id="cocina">
                     <img src="{% static 'images/cocina.jpg' %}" alt="adulto-cocina">
                     <h3>Taller de cocina</h3>
-                    <p>Aprende a preparar recetas nutritivas y deliciosas para cuidar tu salud.</p>
+                    <p>Aprende a preparar recetas nutritivas y deliciosas para cuidar tu salud.<br><br>
+                    -----------------------------------------<br>
+                    <b>Dirección:</b> Av. San Carlos 1340<br>
+                    <b>Hora:</b> 10:30<br>
+                    <b>Día de inicio:</b> 15/12/2024<br>
+                    <b>Día de término:</b> 15/01/2025
+                </p>
                     <button class="inscribir-btn" onclick="toggleInscripcion(this)">Inscribirse</button>
                 </div>
-                <div class="card">
+                <div class="card" data-id="deporte">
                     <img src="{% static 'images/fisico.jpg' %}" alt="adulto-fisico">
                     <h3>Taller de actividad física</h3>
-                    <p>¡Ejercítate y cuida tu bienestar con rutinas guiadas por expertos!</p>
+                    <p>¡Ejercítate y cuida tu bienestar con rutinas guiadas por expertos!<br><br>
+                    -----------------------------------------<br>
+                    <b>Dirección:</b> Av. Concha y Toro 1820<br>
+                    <b>Hora:</b> 16:30<br>
+                    <b>Día de inicio:</b> 25/12/2024<br>
+                    <b>Día de término:</b> 25/02/2025
+                </p>
                     <button class="inscribir-btn" onclick="toggleInscripcion(this)">Inscribirse</button>
                 </div>
             </div>
@@ -129,7 +159,9 @@
 
     <!-- Footer -->
     <div class="copyright">
-        Powered by: <a href="https://templated.co/">Templated</a>.
+        <a> <u>CONTÁCTANOS :</u> (+56) 994253304 <br>
+            Talleres@adultomayor.cl
+        </a>
     </div>
 
     <!-- Scripts -->
@@ -141,13 +173,16 @@
     <!-- Custom Script -->
     <script>
         function toggleInscripcion(button) {
+            const card = button.closest('.card');
+            const cardId = card.getAttribute('data-id');
+    
             if (button.textContent === 'Inscribirse') {
                 // Cambiar a "Inscrito"
                 button.textContent = 'Inscrito';
                 button.style.backgroundColor = '#28a745'; // Verde
                 button.style.color = 'white';
-
-                // Mostrar mensaje
+                // Almacenar el estado en localStorage
+                localStorage.setItem(cardId, 'inscrito');
                 const mensaje = document.createElement('div');
                 mensaje.textContent = '¡Taller inscrito correctamente!';
                 mensaje.className = 'mensaje-confirmacion';
@@ -160,13 +195,26 @@
                     button.textContent = 'Inscribirse';
                     button.style.backgroundColor = '#e5474b'; // Rojo original
                     button.style.color = 'white';
-
-                    // Eliminar mensaje de confirmación
-                    const mensaje = button.parentElement.querySelector('.mensaje-confirmacion');
-                    if (mensaje) mensaje.remove();
+                    // Eliminar el estado de localStorage
+                    localStorage.removeItem(cardId);
                 }
             }
         }
+    
+        // Al cargar la página, revisar el estado de los botones
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(function(card) {
+                const button = card.querySelector('button');
+                const cardId = card.getAttribute('data-id');
+                // Si el estado está guardado en localStorage, actualizar el botón
+                if (localStorage.getItem(cardId) === 'inscrito') {
+                    button.textContent = 'Inscrito';
+                    button.style.backgroundColor = '#28a745'; // Verde
+                    button.style.color = 'white';
+                }
+            });
+        });
     </script>
 </body>
 </html>

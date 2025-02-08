@@ -6,12 +6,12 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     rut = models.CharField(max_length=12)
     primer_nombre = models.CharField(max_length=50)
-    segundo_nombre = models.CharField(max_length=50, blank=True)
+    segundo_nombre = models.CharField(max_length=50)
     primer_apellido = models.CharField(max_length=50)
-    segundo_apellido = models.CharField(max_length=50, blank=True)
+    segundo_apellido = models.CharField(max_length=50)
     fecha_nacimiento = models.DateField()
     telefono = models.CharField(max_length=20)
-    direccion = models.CharField(max_length=50, default='Valor por defecto')
+    direccion = models.CharField(max_length=50, default='N/A')
 
     def __str__(self):
         return f"Perfil de {self.user.username}"

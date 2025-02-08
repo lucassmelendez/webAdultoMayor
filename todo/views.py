@@ -88,15 +88,16 @@ def register(request):
 
 def index(request):
     if request.user.is_authenticated:
-        # Si el usuario está autenticado, mostrar su nombre completo
-        first_name = request.user.first_name
-        last_name = request.user.last_name
-        greeting = f"Bienvenido/a {first_name} {last_name}"
+        try:
+            user_profile = UserProfile.objects.get(user=request.user)
+        except UserProfile.DoesNotExist:
+            user_profile = None
     else:
-        # Si el usuario no está autenticado, mostrar los enlaces para ingresar o registrarse
-        greeting = "Bienvenido/a, por favor ingresa o regístrate."
+        user_profile = None
 
-    return render(request, 'index.html', {'greeting': greeting})
+    return render(request, 'index.html', {'user_profile': user_profile})
+
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -123,7 +124,8 @@ def logout_view(request):
 
 @login_required
 def talleres(request):
-    return render(request, 'talleres.html')
+    user_profile = UserProfile.objects.get(user=request.user)
+    return render(request, 'talleres.html', {'user_profile': user_profile})
 
 @login_required
 def profile(request):
@@ -153,14 +155,9 @@ def update_profile(request):
         segundo_nombre = request.POST.get('segundo_nombre', user_profile.segundo_nombre)
         primer_apellido = request.POST.get('primer_apellido', user_profile.primer_apellido)
         segundo_apellido = request.POST.get('segundo_apellido', user_profile.segundo_apellido)
+        fecha_nacimiento = request.POST.get('fecha_nacimiento', user_profile.fecha_nacimiento)
         telefono = request.POST.get('telefono', user_profile.telefono)
         direccion = request.POST.get('direccion', user_profile.direccion)
-        fecha_nacimiento = request.POST.get('fecha_nacimiento', user_profile.fecha_nacimiento)
-
-        # Validar que los datos no estén vacíos (si es necesario)
-        if not rut or not primer_nombre or not primer_apellido:
-            messages.error(request, "Los campos obligatorios deben estar completos.")
-            return redirect('update_profile')
 
         # Actualizar los campos del perfil
         user_profile.rut = rut
@@ -168,10 +165,10 @@ def update_profile(request):
         user_profile.segundo_nombre = segundo_nombre
         user_profile.primer_apellido = primer_apellido
         user_profile.segundo_apellido = segundo_apellido
+        user_profile.fecha_nacimiento = fecha_nacimiento
         user_profile.telefono = telefono
         user_profile.direccion = direccion
-        user_profile.fecha_nacimiento = fecha_nacimiento
-
+        
         # Guardar los cambios
         user_profile.save()
 

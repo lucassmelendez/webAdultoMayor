@@ -7,6 +7,30 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+    strong {
+        color: rgb(255, 255, 255); /* Cambia 'red' por cualquier color que desees */
+    }
+    .alert {
+        background-color: #28a745;
+        color: white;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .alerta2 {
+        background-color: #ff4545f8;
+        color: white;
+        padding: 20px;
+    }
+
+    .error-message {
+        color: red;
+        text-align: center;
+        margin-top: 20px;
+    }
+    </style>
 </head>
 <body>
 
@@ -17,7 +41,7 @@
         <nav id="nav">
             <a href="{% url 'index' %}">Inicio</a>
             {% if user.is_authenticated %}
-            <a href="{% url 'profile' %}">{{ 'Bienvenido/a ' }}{{ user.first_name }} {{ user.last_name }}</a>
+            <a href="{% url 'profile' %}">{{ 'Bienvenido/a ' }}{{ user_profile.primer_nombre }} {{ user_profile.primer_apellido }}</a>
             <a href="{% url 'logout' %}">Cerrar sesión</a>
             {% else %}
                 <a href="{% url 'login' %}">Iniciar sesión</a>
@@ -27,9 +51,25 @@
 </header>
 <a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 
+{% if messages %}
+<div id="messages">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    setTimeout(function() {
+        document.getElementById('messages').style.display = 'none';
+    }, 3000);
+</script>
+{% endif %}
+
 <section id="main">
     <div class="inner">
-        <h3>Detalles del perfil:</h3>
+        <!-- <h3>Detalles del perfil:</h3>
         <ul>
             <li><strong>RUT:</strong> {{ user_profile.rut }}</li>
             <li><strong>Primer Nombre:</strong> {{ user_profile.primer_nombre }}</li>
@@ -43,46 +83,52 @@
             
         </ul>
 
-        <!-- Formulario de Edición de Perfil -->
-        <h3>Modificar Perfil</h3>
+        Formulario de Edición de Perfil -->
+        <h3>Detalles del Perfil</h3>
         <form action="{% url 'update_profile' %}" method="POST">
             {% csrf_token %}
             <div>
+                <label for="rut">RUT:</label>
+                <input type="text" name="rut" id="rut" value="{{ user_profile.rut }} "readonly>
+            </div><br>
+            <div>
                 <label for="primer_nombre">Primer Nombre:</label>
-                <input type="text" name="primer_nombre" id="primer_nombre" value="{{ user_profile.primer_nombre }}">
-            </div>
+                <input type="text" name="primer_nombre" id="primer_nombre" value="{{ user_profile.primer_nombre }}" required>
+            </div><br>
             <div>
                 <label for="segundo_nombre">Segundo Nombre:</label>
-                <input type="text" name="segundo_nombre" id="segundo_nombre" value="{{ user_profile.segundo_nombre }}">
-            </div>
+                <input type="text" name="segundo_nombre" id="segundo_nombre" value="{{ user_profile.segundo_nombre }}"required>
+            </div><br>
             <div>
                 <label for="primer_apellido">Primer Apellido:</label>
-                <input type="text" name="primer_apellido" id="primer_apellido" value="{{ user_profile.primer_apellido }}">
-            </div>
+                <input type="text" name="primer_apellido" id="primer_apellido" value="{{ user_profile.primer_apellido }}"required>
+            </div><br>
             <div>
                 <label for="segundo_apellido">Segundo Apellido:</label>
-                <input type="text" name="segundo_apellido" id="segundo_apellido" value="{{ user_profile.segundo_apellido }}">
-            </div>
-            <div>
-                <label for="telefono">Teléfono:</label>
-                <input type="text" name="telefono" id="telefono" value="{{ user_profile.telefono }}">
-            </div>
-
-            <div>
-                <label for="direccion">Direccion:</label>
-                <input type="text" name="direccion" id="direccion" value="{{ user_profile.direccion }}">
-            </div>
+                <input type="text" name="segundo_apellido" id="segundo_apellido" value="{{ user_profile.segundo_apellido }}"required>
+            </div><br>
 
             <div>
                 <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-                <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" value="{{ user_profile.fecha_nacimiento }}">
-            </div>
+                <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" value="{{ user_profile.fecha_nacimiento|date:'Y-m-d' }}"required>
+            </div><br>
+
+            <div>
+                <label for="telefono">Teléfono:</label>
+                <input type="text" name="telefono" id="telefono" value="{{ user_profile.telefono }}"required>
+            </div><br>
+
+            <div>
+                <label for="direccion">Direccion:</label>
+                <input type="text" name="direccion" id="direccion" value="{{ user_profile.direccion }}"required>
+            </div><br>
+
             <div>
                 <form action="{% url 'update_profile' %}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar tu cuenta?');">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Guardar cambios</button>
                 </form>
-            </div>
+            </div><br>
         </form>
 
         <!-- Botón para eliminar la cuenta -->
@@ -90,7 +136,7 @@
             {% csrf_token %}
         
             <!-- Mensaje de advertencia visual -->
-            <div class="alert alert-warning">
+            <div class="alerta2">
                 <strong>Advertencia:</strong> Eliminar tu cuenta es una acción irreversible. Una vez eliminada, no podrás recuperar tu perfil ni sus datos. Asegúrate de que deseas proceder con esta acción.
             </div>
         
@@ -100,7 +146,9 @@
 </section>
 
 <div class="copyright">
-    Powered by: <a href="https://templated.co/">Templated</a>.
+    <a> <u>CONTÁCTANOS :</u> (+56) 994253304 <br>
+        Talleres@adultomayor.cl
+    </a>
 </div>
 
 <!-- Scripts -->

@@ -17,7 +17,7 @@
 
             <nav id="nav">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'profile' %}">{{ 'Bienvenido/a ' }}{{ user.first_name }} {{ user.last_name }}</a>
+                <a href="{% url 'profile' %}">{{ 'Bienvenido/a ' }}{{ user_profile.primer_nombre }} {{ user_profile.primer_apellido }}</a>
                     <a href="{% url 'logout' %}">Cerrar sesión</a>
                 {% else %}
                     <a href="{% url 'login' %}">Ingresar</a>
@@ -47,12 +47,12 @@
         <div class="inner">
             <!-- Taller 1 -->
             <article class="workshop">
-                <div class="content">
+                <div class="card">
                     <header>
                         <h3>Talleres deportivos</h3>
                     </header>
                     <div class="image fit">
-                        <img src="{% static 'images/audlto-mayor1.jpg' %}" alt="Talleres deportivos" width="220" height="220">
+                        <img src="{% static 'images/audlto-mayor1.jpg' %}" alt="Talleres deportivos" style="width: 360px; height: auto;">
                     </div>
                     <p>Mantente activo y saludable participando en actividades deportivas adaptadas a tus necesidades. Este taller ofrece ejercicios y juegos que mejoran la fuerza, la coordinación y la vitalidad, mientras disfrutas de momentos llenos de energía.</p>
                 </div>
@@ -60,12 +60,12 @@
 
             <!-- Taller 2 -->
             <article class="workshop">
-                <div class="content">
+                <div class="card">
                     <header>
                         <h3>Talleres de manualidades</h3>
                     </header>
                     <div class="image fit">
-                        <img src="{% static 'images/abuelos.jpg' %}" alt="Talleres de manualidades" width="220" height="220">
+                        <img src="{% static 'images/abuelos.jpg' %}" alt="Talleres de manualidades" style="width: 390px; height: auto;">
                     </div>
                     <p>Despierta tu creatividad aprendiendo técnicas de artesanía y manualidades. Este taller te permite desarrollar nuevas habilidades, relajarte y expresarte a través de proyectos únicos, todo en un entorno acogedor y social.</p>
                 </div>
@@ -87,12 +87,12 @@
 
             <!-- Taller 4 -->
             <article class="workshop">
-                <div class="content">
+                <div class="card">
                     <header>
                         <h3>Y mucho más</h3>
                     </header>
                     <div class="image fit">
-                        <img src="{% static 'images/cocina.jpg' %}" alt="Talleres de cocina" width="220" height="220">
+                        <img src="{% static 'images/cocina.jpg' %}" alt="Talleres de cocina" style="width: 360px; height: auto;">
                     </div>
                     <p>Explora una amplia variedad de actividades diseñadas para inspirarte, divertirte y mantenerte activo. Desde talleres culturales y recreativos hasta sesiones de bienestar y crecimiento personal, siempre encontrarás algo que se adapte a tus intereses y necesidades. ¡Descubre todo lo que tenemos para ti!</p>
                 </div>
@@ -101,32 +101,10 @@
     </section>
 
     <!-- Footer -->
-    <section id="footer">
-        <div class="inner">
-            <header><h2>Contactanos</h2></header>
-            <form method="post" action="#">
-                <div class="field half first">
-                    <label for="name">Nombre</label>
-                    <input type="text" name="name" id="name">
-                </div>
-                <div class="field half">
-                    <label for="email">Correo electrónico</label>
-                    <input type="text" name="email" id="email">
-                </div>
-                <div class="field">
-                    <label for="message">Mensaje</label>
-                    <textarea name="message" id="message" rows="6"></textarea>
-                </div>
-                <ul class="actions">
-                    <li><input type="submit" value="Enviar mensaje" class="alt"></li>
-                </ul>
-            </form>
-        </div>
-    </section>
-
-    <!-- Copyright -->
     <div class="copyright">
-        Powered by: <a href="https://templated.co/">Templated</a>.
+        <a> <u>CONTÁCTANOS :</u> (+56) 994253304 <br>
+            Talleres@adultomayor.cl
+        </a>
     </div>
 
     <!-- Scripts -->
